@@ -9,11 +9,14 @@ use App\Models\Faculties;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Filters\SelectFilter;
 use App\Filament\Resources\StudentsResource\Pages;
 
 class StudentsResource extends Resource
@@ -65,8 +68,14 @@ class StudentsResource extends Resource
                 ->searchable(),
             ])
             ->filters([
-                //
-            ])
+                SelectFilter::make('Faculty')
+                    ->relationship('faculties', 'faculty_name')
+            ])        
+            ->filtersTriggerAction(
+                fn (Action $action) => $action
+                    ->button()
+                    ->label('Filter'),
+            )
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
