@@ -2,27 +2,25 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use Filament\Tables;
 use App\Models\Students;
 use Filament\Forms\Form;
+use App\Models\Faculties;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\StudentsResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\StudentsResource\RelationManagers;
-use App\Models\Faculties;
 
 class StudentsResource extends Resource
 {
     protected static ?string $model = Students::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?int $sort = 1;
 
     public static function form(Form $form): Form
     {
@@ -34,8 +32,10 @@ class StudentsResource extends Resource
                     ->schema([
                         TextInput::make('nim')->required()->unique(ignorable: fn ($record) => $record),
                         TextInput::make('nama')->required(),
-                        Select::make('id_fakultas')
-                            ->options($option_data)->required(),
+                        Select::make('jk')->options([
+                            'Laki' => 'Laki', 
+                            'Perempuan' => 'Perempuan'])->label('Jenis Kelamin')->required(),
+                        Select::make('id_fakultas')->options($option_data)->label('Nama Fakultas')->required(),
                         
                     ])
                     ->columns(2),

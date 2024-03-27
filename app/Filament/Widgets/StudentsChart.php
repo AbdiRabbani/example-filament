@@ -4,11 +4,14 @@ namespace App\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use App\Models\Faculties;
-use App\Models\Students;
 
 class StudentsChart extends ChartWidget
 {
-    protected static ?string $heading = 'Chart';
+
+    protected static ?int $sort = 3;
+
+    protected static bool $isLazy = false;
+    
 
     protected function getData(): array
     {
@@ -27,7 +30,7 @@ class StudentsChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Blog posts created',
+                    'label' => 'The number of students',
                     'data' => $studentCounts,
                 ],
             ],

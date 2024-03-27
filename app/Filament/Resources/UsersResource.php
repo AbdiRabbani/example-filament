@@ -3,36 +3,34 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
 use Filament\Forms\Form;
-use App\Models\Faculties;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\FacultiesResource\Pages;
+use App\Filament\Resources\UsersResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\FacultiesResource\RelationManagers\StudentsRelationManager;
+use App\Filament\Resources\UsersResource\RelationManagers;
 
-class FacultiesResource extends Resource
+class UsersResource extends Resource
 {
-    protected static ?string $model = Faculties::class;
+    protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static $name = 'Fakultas';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Card::make()
-                    ->schema([
-                        TextInput::make('faculty_name')->required(),
-                    ])
-                    ->columns(2),
+                TextInput::make('name')->required(),
+                TextInput::make('email')->required(),
+                TextInput::make('password')
+                    ->password()->required()->visibleOn('create'),
+                Select::make('roles')->relationship('roles','name')->multiple()
             ]);
     }
 
@@ -40,7 +38,9 @@ class FacultiesResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('faculty_name'),
+                TextColumn::make('name'),
+                TextColumn::make('email'),
+                TextColumn::make('roles.name')->badge()
             ])
             ->filters([
                 //
@@ -58,16 +58,16 @@ class FacultiesResource extends Resource
     public static function getRelations(): array
     {
         return [
-            StudentsRelationManager::class,
+            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFaculties::route('/'),
-            'create' => Pages\CreateFaculties::route('/create'),
-            'edit' => Pages\EditFaculties::route('/{record}/edit'),
+            'index' => Pages\ListUsers::route('/'),
+            'create' => Pages\CreateUsers::route('/create'),
+            'edit' => Pages\EditUsers::route('/{record}/edit'),
         ];
     }
 }

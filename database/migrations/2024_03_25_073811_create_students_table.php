@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nim')->unique();
             $table->string('nama');
+            $table->string('jk');
             $table->integer('id_fakultas')->unsigned();
             $table->foreign('id_fakultas')->references('id')->on('faculties')->onDelete('cascade');
             $table->timestamps();
