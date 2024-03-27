@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\FacultiesResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -41,6 +42,12 @@ class FacultiesResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('faculty_name'),
+                ImageColumn::make('students.photo')
+                ->defaultImageUrl(url('/images/placeholder-img.jpg'))
+                ->stacked()
+                ->limit(3)
+                ->limitedRemainingText(isSeparate: true)
+                ->circular(),
             ])
             ->filters([
                 //

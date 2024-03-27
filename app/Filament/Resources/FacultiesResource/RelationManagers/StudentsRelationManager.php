@@ -12,6 +12,7 @@ use Filament\Forms\ComponentContainer;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -44,7 +45,12 @@ class StudentsRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('nim')->label('NIM')->sortable()->searchable(),
                 TextColumn::make('nama')->sortable()->searchable(),
-                TextColumn::make('jk')->label('Jenis Kelamin')->sortable()->searchable(),
+                ImageColumn::make('photo')
+                ->defaultImageUrl(url('/images/placeholder-img.jpg'))
+                ->stacked()
+                ->limit(3)
+                ->limitedRemainingText(isSeparate: true)
+                ->circular(),                TextColumn::make('jk')->label('Jenis Kelamin')->sortable()->searchable(),
             ])
             ->filters([
                 //

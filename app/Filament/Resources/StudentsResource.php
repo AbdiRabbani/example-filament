@@ -12,6 +12,8 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
 use App\Filament\Resources\StudentsResource\Pages;
 
 class StudentsResource extends Resource
@@ -36,7 +38,7 @@ class StudentsResource extends Resource
                             'Laki' => 'Laki', 
                             'Perempuan' => 'Perempuan'])->label('Jenis Kelamin')->required(),
                         Select::make('id_fakultas')->options($option_data)->label('Nama Fakultas')->required(),
-                        
+                        FileUpload::make('photo')->directory('photo-students'),
                     ])
                     ->columns(2),
             ]);
@@ -48,6 +50,12 @@ class StudentsResource extends Resource
             ->columns([
                 TextColumn::make('nim')->label('NIM')->sortable()->searchable(),
                 TextColumn::make('nama')->sortable()->searchable(),
+                ImageColumn::make('photo')
+                ->defaultImageUrl(url('/images/placeholder-img.jpg'))
+                ->stacked()
+                ->limit(3)
+                ->limitedRemainingText(isSeparate: true)
+                ->circular(),           
                 TextColumn::make('id_fakultas')
                 ->label('Nama Fakultas')
                 ->getStateUsing(function ($record) {
