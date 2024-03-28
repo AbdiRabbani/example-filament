@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\FacultiesResource\Pages;
 
-use App\Filament\Resources\FacultiesResource;
 use Filament\Actions;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\FacultiesResource;
+use App\Filament\Resources\FacultiesResource\Widgets\StatsOverview;
 
 class ListFaculties extends ListRecords
 {
@@ -13,7 +15,14 @@ class ListFaculties extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            StatsOverview::class,
         ];
     }
 }

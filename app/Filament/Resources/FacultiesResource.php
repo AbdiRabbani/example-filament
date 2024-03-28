@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\FacultiesResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\FacultiesResource\RelationManagers\StudentsRelationManager;
+use App\Filament\Resources\FacultiesResource\Widgets\StatsOverview;
+use Filament\Forms\Components\Section;
 
 class FacultiesResource extends Resource
 {
@@ -29,7 +31,7 @@ class FacultiesResource extends Resource
     {
         return $form
             ->schema([
-                Card::make()
+                Section::make()
                     ->schema([
                         TextInput::make('faculty_name')->required(),
                     ])
